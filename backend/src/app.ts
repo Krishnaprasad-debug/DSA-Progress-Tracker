@@ -3,6 +3,8 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
+import authRouter from './routes/authRoutes';
+
 dotenv.config();
 
 export const app: Express = express();
@@ -27,6 +29,10 @@ app.get('/api/health', (_req: Request, res: Response) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+// Authentication Routes
+app.use('/api/auth', authRouter);
+
 
 // 404 Handler
 app.use((_req: Request, res: Response) => {
