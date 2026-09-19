@@ -22,9 +22,11 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'lcov', 'html'],
       reportsDirectory: './coverage',
+      include: ['src/**/*.{ts,tsx}'],
       exclude: [
-        'node_modules/',
-        'src/test/',
+        'dist/**',
+        'node_modules/**',
+        'src/test/**',
         '**/*.d.ts',
         'vite.config.ts',
         'tailwind.config.js',

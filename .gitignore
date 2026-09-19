@@ -41,3 +41,4 @@ Thumbs.db
 # SonarCloud / Scanner artifacts
 .scannerwork/
 .sonar/
+node_modules

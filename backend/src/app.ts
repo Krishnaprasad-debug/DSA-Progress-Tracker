@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
 import authRouter from './routes/authRoutes';
+import problemRouter from './routes/problemRoutes';
 
 dotenv.config();
 
@@ -30,8 +31,10 @@ app.get('/api/health', (_req: Request, res: Response) => {
   });
 });
 
-// Authentication Routes
+// Domain Routes
 app.use('/api/auth', authRouter);
+app.use('/api/problems', problemRouter);
+
 
 
 // 404 Handler
