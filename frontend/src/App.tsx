@@ -14,6 +14,7 @@ import {
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { ProblemList } from './components/problems/ProblemList';
 
 const AppContent: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -43,11 +44,11 @@ const AppContent: React.FC = () => {
             <div className="hidden sm:flex items-center space-x-2 text-xs font-mono">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                Phase 2: Auth Active
+                Phase 3: Problem CRUD Active
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
                 <GitBranch className="w-3.5 h-3.5 text-slate-400" />
-                feature/auth-system
+                feature/problem-management
               </span>
             </div>
 
@@ -94,7 +95,7 @@ const AppContent: React.FC = () => {
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/80 text-xs text-slate-300 mb-4">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            Stateless JWT Cookie Authentication &amp; RBAC Architecture
+            Problem Management CRUD &amp; Multi-Facet Filter Engine
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
             DSA Progress Tracker &amp; <br />
@@ -107,18 +108,18 @@ const AppContent: React.FC = () => {
           </p>
         </div>
 
-        {/* Auth State Card */}
-        <div className="mb-10 max-w-xl mx-auto w-full">
+        {/* Auth State & Problem Management Section */}
+        <div className="mb-10 w-full">
           <ProtectedRoute
             onOpenAuth={() => openAuth('login')}
             fallback={
-              <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
+              <div className="max-w-xl mx-auto p-6 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
                 <div className="w-10 h-10 mx-auto rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 mb-3">
                   <ShieldAlert className="w-5 h-5 text-amber-400" />
                 </div>
                 <h2 className="text-base font-semibold text-white mb-1">Guest Session Detected</h2>
                 <p className="text-xs text-slate-400 mb-4">
-                  Sign in or register to test the HttpOnly JWT cookie authentication flow.
+                  Sign in or register to access your personal problem library, track attempts, and configure spaced revisions.
                 </p>
                 <div className="flex justify-center gap-2">
                   <button
@@ -137,26 +138,29 @@ const AppContent: React.FC = () => {
               </div>
             }
           >
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-900/80 border border-emerald-500/30 shadow-xl shadow-emerald-950/20">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold">
-                  <UserCheck className="w-4 h-4" />
-                  Authenticated Session Verified
+            <div className="space-y-6">
+              {/* Authenticated User Status Strip */}
+              <div className="p-4 rounded-xl bg-gradient-to-r from-slate-900 to-slate-900/80 border border-emerald-500/30 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+                    <UserCheck className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-semibold text-white block">
+                      Welcome, {user?.name}
+                    </span>
+                    <span className="text-[11px] text-slate-400">
+                      Logged in as {user?.email}
+                    </span>
+                  </div>
                 </div>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono">
-                  HttpOnly Cookie
+                <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono">
+                  HttpOnly Session Active
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-4 text-left">
-                <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-                  <span className="text-[10px] text-slate-500 block uppercase font-mono">Name</span>
-                  <span className="text-sm font-semibold text-white">{user?.name}</span>
-                </div>
-                <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-                  <span className="text-[10px] text-slate-500 block uppercase font-mono">Email</span>
-                  <span className="text-sm font-semibold text-white">{user?.email}</span>
-                </div>
-              </div>
+
+              {/* Problem Library Component */}
+              <ProblemList />
             </div>
           </ProtectedRoute>
         </div>
@@ -204,9 +208,9 @@ const AppContent: React.FC = () => {
               <Activity className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-sm font-medium text-white">Authentication System Active</p>
+              <p className="text-sm font-medium text-white">Problem Management CRUD Ready</p>
               <p className="text-xs text-slate-400">
-                Phase 2 implementation on branch <code className="text-emerald-400">feature/auth-system</code>
+                Phase 3 implementation on branch <code className="text-emerald-400">feature/problem-management</code>
               </p>
             </div>
           </div>
