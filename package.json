@@ -1,0 +1,35 @@
+{
+  "name": "dsa-progress-tracker-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DSA Progress Tracker & Learning Analytics Platform",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "lint": "npm run lint --workspace=backend && npm run lint --workspace=frontend",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "npm run test --workspace=backend",
+    "test:frontend": "npm run test --workspace=frontend",
+    "build:backend": "npm run build --workspace=backend",
+    "build:frontend": "npm run build --workspace=frontend",
+    "build": "npm run build:backend && npm run build:frontend",
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend"
+  },
+  "keywords": [
+    "dsa",
+    "progress-tracker",
+    "learning-analytics",
+    "ci-cd",
+    "react",
+    "express",
+    "typescript"
+  ],
+  "author": "Krishnaprasad S",
+  "license": "MIT"
+}
