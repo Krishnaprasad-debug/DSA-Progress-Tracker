@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 import authRouter from './routes/authRoutes';
 import problemRouter from './routes/problemRoutes';
+import revisionRouter from './routes/revisionRoutes';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.get('/api/health', (_req: Request, res: Response) => {
 // Domain Routes
 app.use('/api/auth', authRouter);
 app.use('/api/problems', problemRouter);
+app.use('/api/revisions', revisionRouter);
 
 
 
