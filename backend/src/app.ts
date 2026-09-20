@@ -3,6 +3,9 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
+import authRouter from './routes/authRoutes';
+import problemRouter from './routes/problemRoutes';
+
 dotenv.config();
 
 export const app: Express = express();
@@ -27,6 +30,12 @@ app.get('/api/health', (_req: Request, res: Response) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+// Domain Routes
+app.use('/api/auth', authRouter);
+app.use('/api/problems', problemRouter);
+
+
 
 // 404 Handler
 app.use((_req: Request, res: Response) => {

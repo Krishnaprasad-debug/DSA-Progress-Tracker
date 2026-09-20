@@ -7,6 +7,12 @@ export default defineConfig({
   server: {
     port: 5173,
     strictPort: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
   },
   test: {
     globals: true,
@@ -16,9 +22,11 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'lcov', 'html'],
       reportsDirectory: './coverage',
+      include: ['src/**/*.{ts,tsx}'],
       exclude: [
-        'node_modules/',
-        'src/test/',
+        'dist/**',
+        'node_modules/**',
+        'src/test/**',
         '**/*.d.ts',
         'vite.config.ts',
         'tailwind.config.js',

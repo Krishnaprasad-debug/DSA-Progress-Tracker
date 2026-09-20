@@ -6,6 +6,7 @@ on:
       - main
       - develop
       - 'feature/*'
+      - 'fix/*'
   pull_request:
     branches:
       - main
@@ -113,28 +114,42 @@ jobs:
     name: SonarCloud Code Quality Analysis
     runs-on: ubuntu-latest
     needs: [backend-tests, frontend-tests]
-    # Guard: Activated once SONAR_TOKEN is added in Phase 8
-    if: ${{ secrets.SONAR_TOKEN != '' }}
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Check SonarCloud Configuration
+        id: check-sonar
+        run: |
+          if [ -z "$SONAR_TOKEN" ]; then
+            echo "Notice: SONAR_TOKEN is not configured yet. Skipping SonarCloud analysis (scheduled for Phase 8)."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Download Backend Coverage
+        if: steps.check-sonar.outputs.skip != 'true'
         uses: actions/download-artifact@v4
         with:
           name: backend-coverage
           path: backend/coverage
 
       - name: Download Frontend Coverage
+        if: steps.check-sonar.outputs.skip != 'true'
         uses: actions/download-artifact@v4
         with:
           name: frontend-coverage
           path: frontend/coverage
 
       - name: SonarCloud Scan
+        if: steps.check-sonar.outputs.skip != 'true'
         uses: SonarSource/sonarcloud-github-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
