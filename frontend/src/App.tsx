@@ -44,11 +44,11 @@ const AppContent: React.FC = () => {
             <div className="hidden sm:flex items-center space-x-2 text-xs font-mono">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                Phase 3: Problem CRUD Active
+                Phase 4: Attempt Tracking Active
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
                 <GitBranch className="w-3.5 h-3.5 text-slate-400" />
-                feature/problem-management
+                feature/attempt-tracking
               </span>
             </div>
 
@@ -95,7 +95,7 @@ const AppContent: React.FC = () => {
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/80 text-xs text-slate-300 mb-4">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            Problem Management CRUD &amp; Multi-Facet Filter Engine
+            Attempt History, Practice Timers &amp; Struggle Detection
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
             DSA Progress Tracker &amp; <br />
@@ -208,9 +208,9 @@ const AppContent: React.FC = () => {
               <Activity className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-sm font-medium text-white">Problem Management CRUD Ready</p>
+              <p className="text-sm font-medium text-white">Attempt History &amp; Struggle Detection Active</p>
               <p className="text-xs text-slate-400">
-                Phase 3 implementation on branch <code className="text-emerald-400">feature/problem-management</code>
+                Phase 4 implementation on branch <code className="text-emerald-400">feature/attempt-tracking</code>
               </p>
             </div>
           </div>

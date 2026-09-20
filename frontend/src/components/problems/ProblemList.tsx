@@ -12,6 +12,8 @@ import {
   Code2,
   Tag,
   Loader2,
+  History,
+  PlusCircle,
 } from 'lucide-react';
 import {
   Problem,
@@ -23,6 +25,8 @@ import {
 } from '../../types/problem';
 import problemService from '../../services/problemService';
 import { ProblemModal } from './ProblemModal';
+import { AttemptModal } from '../attempts/AttemptModal';
+import { AttemptHistoryModal } from '../attempts/AttemptHistoryModal';
 
 export const ProblemList: React.FC = () => {
   const [problems, setProblems] = useState<Problem[]>([]);
@@ -39,6 +43,11 @@ export const ProblemList: React.FC = () => {
   // Modal States
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProblem, setEditingProblem] = useState<Problem | null>(null);
+
+  // Attempt Tracking States
+  const [isAttemptModalOpen, setIsAttemptModalOpen] = useState(false);
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [attemptTargetProblem, setAttemptTargetProblem] = useState<Problem | null>(null);
 
   const fetchProblems = useCallback(async () => {
     try {
@@ -88,6 +97,20 @@ export const ProblemList: React.FC = () => {
   const openAddModal = () => {
     setEditingProblem(null);
     setIsModalOpen(true);
+  };
+
+  const openLogAttempt = (problem: Problem) => {
+    setAttemptTargetProblem(problem);
+    setIsAttemptModalOpen(true);
+  };
+
+  const openHistoryModal = (problem: Problem) => {
+    setAttemptTargetProblem(problem);
+    setIsHistoryModalOpen(true);
+  };
+
+  const handleAttemptLogged = () => {
+    fetchProblems();
   };
 
   const openEditModal = (problem: Problem) => {
@@ -368,7 +391,23 @@ export const ProblemList: React.FC = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-1.5 shrink-0">
+                <button
+                  onClick={() => openLogAttempt(problem)}
+                  aria-label={`Log attempt for ${problem.title}`}
+                  className="p-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 border border-emerald-500/20 transition-colors cursor-pointer"
+                  title="Log Practice Attempt"
+                >
+                  <PlusCircle className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => openHistoryModal(problem)}
+                  aria-label={`View attempt history for ${problem.title}`}
+                  className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                  title="View Attempt History"
+                >
+                  <History className="w-4 h-4" />
+                </button>
                 <button
                   onClick={() => openEditModal(problem)}
                   aria-label={`Edit ${problem.title}`}
@@ -397,6 +436,25 @@ export const ProblemList: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleCreateOrUpdate}
         initialData={editingProblem}
+      />
+
+      {/* Log Practice Attempt Modal */}
+      <AttemptModal
+        isOpen={isAttemptModalOpen}
+        onClose={() => setIsAttemptModalOpen(false)}
+        problem={attemptTargetProblem}
+        onAttemptLogged={handleAttemptLogged}
+      />
+
+      {/* Attempt History & Struggle Detection Modal */}
+      <AttemptHistoryModal
+        isOpen={isHistoryModalOpen}
+        onClose={() => setIsHistoryModalOpen(false)}
+        problem={attemptTargetProblem}
+        onOpenLogAttempt={(prob) => {
+          setIsHistoryModalOpen(false);
+          openLogAttempt(prob);
+        }}
       />
     </div>
   );
