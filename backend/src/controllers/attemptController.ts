@@ -6,6 +6,7 @@ import {
   evaluateStruggleDetection,
   getUserDifficultyAverageTime,
 } from '../services/struggleService';
+import { scheduleInitialRevision } from '../services/revisionService';
 
 export const createAttempt = async (
   req: Request,
@@ -65,6 +66,8 @@ export const createAttempt = async (
       if (problem.status !== 'Mastered') {
         problem.status = 'Solved';
       }
+      // Auto-schedule initial spaced revision (Day 1)
+      await scheduleInitialRevision(problemId, userId);
     } else if (result === 'Failed') {
       if (problem.status === 'Not Started') {
         problem.status = 'Attempted';

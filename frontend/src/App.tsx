@@ -10,16 +10,33 @@ import {
   LogOut,
   UserCheck,
   ShieldAlert,
+  Calendar,
+  BookOpen,
 } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { ProblemList } from './components/problems/ProblemList';
+import { RevisionList } from './components/revisions/RevisionList';
+import { RevisionDueBanner } from './components/revisions/RevisionDueBanner';
+import { revisionService } from './services/revisionService';
 
 const AppContent: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'register'>('login');
+  const [activeWorkspaceTab, setActiveWorkspaceTab] = useState<'problems' | 'revisions'>('problems');
+  const [dueCount, setDueCount] = useState<number>(0);
+
+  // Fetch revisions due today when authenticated
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      revisionService
+        .getRevisionsDueToday()
+        .then((res) => setDueCount(res.count))
+        .catch((err) => console.error('Failed to fetch due count:', err));
+    }
+  }, [isAuthenticated]);
 
   const openAuth = (mode: 'login' | 'register') => {
     setAuthModalMode(mode);
@@ -44,11 +61,11 @@ const AppContent: React.FC = () => {
             <div className="hidden sm:flex items-center space-x-2 text-xs font-mono">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                Phase 4: Attempt Tracking Active
+                Phase 5: Spaced Revisions Active
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
                 <GitBranch className="w-3.5 h-3.5 text-slate-400" />
-                feature/attempt-tracking
+                feature/spaced-revisions
               </span>
             </div>
 
@@ -95,7 +112,7 @@ const AppContent: React.FC = () => {
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/80 text-xs text-slate-300 mb-4">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            Attempt History, Practice Timers &amp; Struggle Detection
+            Spaced Revision System &amp; Leitner Forgetting-Curve Memory Engine
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
             DSA Progress Tracker &amp; <br />
@@ -159,8 +176,50 @@ const AppContent: React.FC = () => {
                 </span>
               </div>
 
-              {/* Problem Library Component */}
-              <ProblemList />
+              {/* Spaced Revisions Due Notification Banner */}
+              <RevisionDueBanner
+                dueCount={dueCount}
+                onNavigateToRevisions={() => setActiveWorkspaceTab('revisions')}
+              />
+
+              {/* Workspace Navigation Tabs */}
+              <div className="flex items-center gap-2 bg-slate-900/50 p-1 rounded-xl border border-slate-800 max-w-md">
+                <button
+                  onClick={() => setActiveWorkspaceTab('problems')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition ${
+                    activeWorkspaceTab === 'problems'
+                      ? 'bg-slate-800 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Problem Library</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveWorkspaceTab('revisions')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition ${
+                    activeWorkspaceTab === 'revisions'
+                      ? 'bg-slate-800 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span>Spaced Revisions</span>
+                  {dueCount > 0 && (
+                    <span className="px-1.5 py-0.2 rounded-full text-[10px] font-mono bg-amber-500 text-slate-950 font-bold">
+                      {dueCount}
+                    </span>
+                  )}
+                </button>
+              </div>
+
+              {/* Active Tab View */}
+              {activeWorkspaceTab === 'problems' ? (
+                <ProblemList />
+              ) : (
+                <RevisionList onRevisionCountChanged={setDueCount} />
+              )}
             </div>
           </ProtectedRoute>
         </div>
@@ -208,9 +267,9 @@ const AppContent: React.FC = () => {
               <Activity className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-sm font-medium text-white">Attempt History &amp; Struggle Detection Active</p>
+              <p className="text-sm font-medium text-white">Spaced Revision System Active</p>
               <p className="text-xs text-slate-400">
-                Phase 4 implementation on branch <code className="text-emerald-400">feature/attempt-tracking</code>
+                Phase 5 implementation on branch <code className="text-emerald-400">feature/spaced-revisions</code>
               </p>
             </div>
           </div>
