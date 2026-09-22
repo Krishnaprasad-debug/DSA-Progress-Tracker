@@ -396,3 +396,13 @@ export async function getUserTopicAnalytics(
     };
   });
 }
+
+export const analyticsService = {
+  calculateTopicMastery,
+  identifyWeakTopic,
+  calculateStreaks,
+  getUserDashboardAnalytics,
+  getUserTopicAnalytics,
+};
+
+export default analyticsService;
