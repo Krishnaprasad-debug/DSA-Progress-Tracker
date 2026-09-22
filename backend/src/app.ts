@@ -6,6 +6,9 @@ import dotenv from 'dotenv';
 import authRouter from './routes/authRoutes';
 import problemRouter from './routes/problemRoutes';
 import revisionRouter from './routes/revisionRoutes';
+import analyticsRouter from './routes/analyticsRoutes';
+import goalRouter from './routes/goalRoutes';
+import reportRouter from './routes/reportRoutes';
 
 dotenv.config();
 
@@ -36,6 +39,9 @@ app.get('/api/health', (_req: Request, res: Response) => {
 app.use('/api/auth', authRouter);
 app.use('/api/problems', problemRouter);
 app.use('/api/revisions', revisionRouter);
+app.use('/api/analytics', analyticsRouter);
+app.use('/api/goals', goalRouter);
+app.use('/api/reports', reportRouter);
 
 
 
