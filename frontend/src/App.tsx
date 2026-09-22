@@ -13,6 +13,7 @@ import {
   Calendar,
   BookOpen,
   BarChart3,
+  Target,
 } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
@@ -21,13 +22,14 @@ import { ProblemList } from './components/problems/ProblemList';
 import { RevisionList } from './components/revisions/RevisionList';
 import { RevisionDueBanner } from './components/revisions/RevisionDueBanner';
 import { AnalyticsDashboard } from './components/analytics/AnalyticsDashboard';
+import { GoalsAndReportsHub } from './components/goals/GoalsAndReportsHub';
 import { revisionService } from './services/revisionService';
 
 const AppContent: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'register'>('login');
-  const [activeWorkspaceTab, setActiveWorkspaceTab] = useState<'problems' | 'revisions' | 'analytics'>('problems');
+  const [activeWorkspaceTab, setActiveWorkspaceTab] = useState<'problems' | 'revisions' | 'analytics' | 'goals'>('problems');
   const [dueCount, setDueCount] = useState<number>(0);
 
   // Fetch revisions due today when authenticated
@@ -63,11 +65,11 @@ const AppContent: React.FC = () => {
             <div className="hidden sm:flex items-center space-x-2 text-xs font-mono">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                Phase 6: Analytics Engine Active
+                Phase 7: Personal Goals &amp; Reports Active
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
                 <GitBranch className="w-3.5 h-3.5 text-slate-400" />
-                feature/analytics-engine
+                feature/personal-goals
               </span>
             </div>
 
@@ -114,7 +116,7 @@ const AppContent: React.FC = () => {
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/80 text-xs text-slate-300 mb-4">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            Learning Analytics, Topic Mastery &amp; Daily Coding Streaks
+            Personal Goal Setting, Weekly Velocity Reports &amp; Learning Analytics
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
             DSA Progress Tracker &amp; <br />
@@ -185,7 +187,7 @@ const AppContent: React.FC = () => {
               />
 
               {/* Workspace Navigation Tabs */}
-              <div className="flex items-center gap-2 bg-slate-900/50 p-1 rounded-xl border border-slate-800 max-w-xl">
+              <div className="flex items-center gap-2 bg-slate-900/50 p-1 rounded-xl border border-slate-800 max-w-2xl">
                 <button
                   onClick={() => setActiveWorkspaceTab('problems')}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition ${
@@ -226,6 +228,18 @@ const AppContent: React.FC = () => {
                   <BarChart3 className="w-3.5 h-3.5" />
                   <span>Learning Analytics</span>
                 </button>
+
+                <button
+                  onClick={() => setActiveWorkspaceTab('goals')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition ${
+                    activeWorkspaceTab === 'goals'
+                      ? 'bg-slate-800 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Target className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Goals &amp; Reports</span>
+                </button>
               </div>
 
               {/* Active Tab View */}
@@ -233,8 +247,10 @@ const AppContent: React.FC = () => {
                 <ProblemList />
               ) : activeWorkspaceTab === 'revisions' ? (
                 <RevisionList onRevisionCountChanged={setDueCount} />
-              ) : (
+              ) : activeWorkspaceTab === 'analytics' ? (
                 <AnalyticsDashboard />
+              ) : (
+                <GoalsAndReportsHub />
               )}
             </div>
           </ProtectedRoute>
@@ -283,9 +299,9 @@ const AppContent: React.FC = () => {
               <Activity className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-sm font-medium text-white">Learning Analytics &amp; Mastery Engine Active</p>
+              <p className="text-sm font-medium text-white">Personal Goals &amp; Weekly Reports Active</p>
               <p className="text-xs text-slate-400">
-                Phase 6 implementation on branch <code className="text-emerald-400">feature/analytics-engine</code>
+                Phase 7 implementation on branch <code className="text-emerald-400">feature/personal-goals</code>
               </p>
             </div>
           </div>
