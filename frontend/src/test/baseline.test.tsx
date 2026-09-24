@@ -22,7 +22,7 @@ describe('Frontend Baseline CI Test Suite', () => {
   it('displays the active branch badge', () => {
     render(<App />);
 
-    const branchBadges = screen.getAllByText(/feature\/personal-goals/i);
+    const branchBadges = screen.getAllByText(/feature\/assessment-engine/i);
     expect(branchBadges.length).toBeGreaterThanOrEqual(1);
     expect(branchBadges[0]).toBeInTheDocument();
   });
