@@ -126,7 +126,7 @@ jobs:
         id: check-sonar
         run: |
           if [ -z "$SONAR_TOKEN" ]; then
-            echo "Notice: SONAR_TOKEN is not configured yet. Skipping SonarCloud analysis (scheduled for Phase 8)."
+            echo "Notice: SONAR_TOKEN secret is not set. Skipping SonarCloud step."
             echo "skip=true" >> "$GITHUB_OUTPUT"
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
