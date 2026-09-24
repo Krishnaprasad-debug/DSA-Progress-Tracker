@@ -67,11 +67,11 @@ const AppContent: React.FC = () => {
             <div className="hidden sm:flex items-center space-x-2 text-xs font-mono">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                Phase 8: Assessment Engine Active
+                Phase 9: Security Hardening &amp; Quality Gate Active
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
                 <GitBranch className="w-3.5 h-3.5 text-slate-400" />
-                feature/assessment-engine
+                feature/quality-security-hardening
               </span>
             </div>
 
@@ -315,9 +315,9 @@ const AppContent: React.FC = () => {
               <Activity className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-sm font-medium text-white">Assessment Engine &amp; Mock Interview Contests Active</p>
+              <p className="text-sm font-medium text-white">Code Quality, Security Hardening &amp; SonarCloud Active</p>
               <p className="text-xs text-slate-400">
-                Phase 8 implementation on branch <code className="text-emerald-400">feature/assessment-engine</code>
+                Phase 9 implementation on branch <code className="text-emerald-400">feature/quality-security-hardening</code>
               </p>
             </div>
           </div>
